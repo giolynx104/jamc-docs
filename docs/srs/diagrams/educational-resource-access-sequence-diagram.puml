@@ -1,0 +1,20 @@
+@startuml
+actor Student
+participant "JAMC Platform" as Platform
+participant "Course Module" as Course
+participant "Q&A System" as QnA
+
+Student -> Platform: Select Course
+Platform -> Course: Retrieve Scheduled Resources
+Course -> Platform: Return Resources List
+Student -> Platform: Select Resource
+Platform -> Course: Check Resource Availability
+alt Resource Available
+    Course -> Platform: Grant Access to Resource
+    Student -> Platform: Access Resource
+    Student -> QnA: Ask Question about Resource
+    QnA -> Platform: Link Question to Resource
+else Resource Unavailable
+    Platform -> Student: Show Scheduled Release Date
+end
+@enduml

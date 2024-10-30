@@ -1,0 +1,14 @@
+@startuml
+start
+:Teacher Authenticated;
+:Start Creating Class;
+:Enter Class Name, Schedule, Personalized Resources;
+if (All Details Valid?) then (yes)
+  :Save Class to Database;
+  :Track Individual Student Progress;
+  :Provide Tailored Feedback;
+else (no)
+  :Display Error for Incomplete Details;
+endif
+stop
+@enduml

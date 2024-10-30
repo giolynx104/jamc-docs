@@ -1,0 +1,27 @@
+@startuml
+actor User
+participant "JAMC System" as System
+participant "Moderation Service" as Moderator
+participant "Q&A Database" as DB
+
+User -> System: Access Q&A Section
+User -> System: Choose Action (Browse, Search, Post)
+alt Posting a Personalized Question/Answer
+    System -> User: Choose Visibility (Public/Private)
+    User --> System: Submit Question/Answer with Visibility
+    System -> Moderator: Moderate Content
+    alt Content Approved
+        Moderator --> System: Content Approved
+        System -> DB: Save Question/Answer with Visibility
+        DB --> System: Content Saved
+        System --> User: Display to Relevant Audience
+    else Content Rejected
+        Moderator --> System: Trigger Moderation Warning
+        System --> User: Display Moderation Warning
+    end
+else Browsing or Searching
+    System -> DB: Retrieve Questions based on Filters
+    DB --> System: Return Questions
+    System --> User: Display Filtered Questions
+end
+@enduml

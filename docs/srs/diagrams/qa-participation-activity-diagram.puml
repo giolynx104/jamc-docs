@@ -1,0 +1,19 @@
+@startuml
+start
+:User Authenticated;
+:Access Q&A Section;
+:Choose Action: Browse, Search, or Post;
+if (Post Question or Answer?) then (yes)
+  :Choose Visibility: Public or Private;
+  :Enter Personalized Question;
+  if (Content Moderated?) then (yes)
+    :Content Approved;
+    :Display to Relevant Audience;
+  else (no)
+    :Moderation Warning;
+  endif
+else (no)
+  :Browsing or Searching Questions;
+endif
+stop
+@enduml

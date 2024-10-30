@@ -1,0 +1,13 @@
+@startuml
+start
+:Teacher Authenticated;
+:Select Class to Monetize;
+:Enter Course Price and Payment Details;
+if (Payment Setup Valid?) then (yes)
+  :Publish Monetized Course;
+  :Available for Purchase;
+else (no)
+  :Display Payment Setup Error;
+endif
+stop
+@enduml

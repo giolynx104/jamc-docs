@@ -1,0 +1,38 @@
+@startuml
+title JAMC System Component Diagram
+
+skinparam componentStyle rectangle
+
+' Define components
+component "Authentication Module" as AuthMod
+component "User Management Module" as UserMod
+component "Class Management Module" as ClassMod
+component "Q&A Module" as QAMod
+component "Educational Resource Module" as ResMod
+component "Review System Module" as ReviewMod
+database "PostgreSQL Database" as DB
+node "User Interface" as UI
+
+' Define relationships
+UI --> AuthMod : "Authenticates User"
+UI --> UserMod : "Manages Profile"
+UI --> ClassMod : "Interacts with Classes"
+UI --> QAMod : "Participates in Q&A"
+UI --> ResMod : "Accesses Resources"
+UI --> ReviewMod : "Submits Reviews"
+
+AuthMod --> UserMod : "Authentication Data"
+AuthMod --> DB : "Stores Credentials"
+UserMod --> DB : "User Profiles"
+ClassMod --> DB : "Class Data"
+QAMod --> DB : "Q&A Data"
+ResMod --> DB : "Resource Data"
+ReviewMod --> DB : "Review Data"
+
+' Inter-module interactions
+UserMod --> ClassMod : "User Roles & Permissions"
+ClassMod --> QAMod : "Class Q&A Context"
+ClassMod --> ResMod : "Resource Access Control"
+ClassMod --> ReviewMod : "Class Association"
+
+@enduml

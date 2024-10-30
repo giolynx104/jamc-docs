@@ -1,0 +1,29 @@
+@startuml
+actor User
+actor Teacher
+actor Student
+actor Admin
+
+User <|-- Teacher
+User <|-- Student
+User <|-- Admin
+
+usecase "Register and Onboard User" as UC1
+usecase "Create and Manage Class" as UC2
+usecase "Enroll in Class" as UC3
+usecase "Participate in Personalized Q&A" as UC4
+usecase "Access Educational Resources" as UC5
+usecase "Monetize Course" as UC6
+
+User --> UC1
+User --> UC4
+User --> UC5
+
+Teacher --> UC2
+Teacher --> UC6
+
+Student --> UC3
+
+Admin --> UC2
+
+@enduml

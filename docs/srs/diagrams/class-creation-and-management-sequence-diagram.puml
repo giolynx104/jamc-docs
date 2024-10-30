@@ -1,0 +1,19 @@
+@startuml
+actor Teacher
+participant "JAMC System" as System
+participant "Database" as DB
+
+Teacher -> System: Start Class Creation
+System -> Teacher: Request Class Name, Schedule, Personalized Resources
+Teacher --> System: Provide Class Details
+System -> System: Validate Class Details
+alt Details Valid
+    System -> DB: Save Class Information
+    DB --> System: Class Saved
+    System -> Teacher: Class Created Successfully
+    System -> Student: Track Individual Progress
+    System -> Teacher: Provide Feedback Dashboard
+else Details Invalid
+    System --> Teacher: Display Error Message
+end
+@enduml

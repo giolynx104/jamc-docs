@@ -1,0 +1,84 @@
+@startuml
+entity "User" as User {
+    * id : String <<PK>>
+    --
+    name : String
+    email : String <<unique>>
+    emailVerified : DateTime
+    role : Role
+}
+
+entity "StudentProfile" as StudentProfile {
+    * id : String <<PK>>
+    --
+    userId : String <<FK>>
+}
+
+entity "TeacherProfile" as TeacherProfile {
+    * id : String <<PK>>
+    --
+    userId : String <<FK>>
+}
+
+entity "Course" as Course {
+    * id : String <<PK>>
+    --
+    title : String
+    description : String
+    teacherId : String <<FK>>
+}
+
+entity "Lesson" as Lesson {
+    * id : String <<PK>>
+    --
+    courseId : String <<FK>>
+    title : String
+    content : String
+}
+
+entity "Enrollment" as Enrollment {
+    * id : String <<PK>>
+    --
+    studentId : String <<FK>>
+    courseId : String <<FK>>
+    accessType : AccessType
+}
+
+entity "Question" as Question {
+    * id : String <<PK>>
+    --
+    title : String
+    content : String
+    authorId : String <<FK>>
+    lessonId : String <<FK>>
+}
+
+entity "Answer" as Answer {
+    * id : String <<PK>>
+    --
+    content : String
+    authorId : String <<FK>>
+    questionId : String <<FK>>
+}
+
+entity "Certificate" as Certificate {
+    * id : String <<PK>>
+    --
+    studentId : String <<FK>>
+    courseId : String <<FK>>
+    achievement : AchievementType
+}
+
+User "1" -- "0..1" StudentProfile : "has"
+User "1" -- "0..1" TeacherProfile : "has"
+TeacherProfile "1" -- "0..*" Course : "creates"
+Course "1" -- "0..*" Lesson : "contains"
+Course "1" -- "0..*" Enrollment : "has"
+StudentProfile "1" -- "0..*" Enrollment : "enrolls in"
+StudentProfile "1" -- "0..*" Certificate : "awarded"
+User "1" -- "0..*" Question : "asks"
+User "1" -- "0..*" Answer : "provides"
+Question "1" -- "0..*" Answer : "answered by"
+Lesson "1" -- "0..*" Question : "contains"
+
+@enduml

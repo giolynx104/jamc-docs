@@ -1,0 +1,28 @@
+@startuml
+actor User
+participant "JAMC System" as System
+participant "OAuth Provider" as OAuth
+participant "User Database" as DB
+
+User -> System: Start Registration
+alt Using OAuth
+    System -> OAuth: Authenticate User
+    OAuth --> System: Success/Failure
+    alt Success
+        System -> DB: Create User Profile
+        DB --> System: Profile Created
+    else Failure
+        System --> User: Display OAuth Error
+    end
+else Using Email
+    User -> System: Enter Email & Password
+    System -> DB: Check Email Uniqueness
+    alt Email is Unique
+        System -> DB: Create User Profile
+        DB --> System: Profile Created
+    else Email Exists
+        System --> User: Display Email Error
+    end
+end
+System --> User: Complete Onboarding
+@enduml

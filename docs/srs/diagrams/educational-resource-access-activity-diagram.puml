@@ -1,0 +1,22 @@
+@startuml
+|Student|
+start
+:Access Learning Resource;
+:Select Course;
+:Browse Scheduled Resources;
+
+if (Resource Available for the Week?) then (yes)
+    :Access Resource;
+    :Read/View Resource Content;
+    :Option to Ask Question;
+    note right
+        Student can link questions
+        directly to this resource
+    end note
+else (no)
+    :Wait until Scheduled Release Date;
+endif
+
+stop
+@enduml
+

@@ -1,0 +1,22 @@
+@startuml
+start
+:Start Registration;
+if (Using OAuth?) then (yes)
+  :Authenticate via OAuth;
+  if (OAuth Success?) then (yes)
+    :Create User Profile;
+  else (no)
+    :Display OAuth Error;
+  endif
+else (no)
+  :Enter Email and Password;
+  if (Email Unique?) then (yes)
+    :Create User Profile;
+  else (no)
+    :Display Email Already Exists Error;
+  endif
+endif
+:Assign Role (Teacher/Student);
+:Complete Onboarding Process;
+stop
+@enduml

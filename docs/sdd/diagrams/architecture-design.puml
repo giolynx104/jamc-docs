@@ -1,0 +1,30 @@
+@startuml
+skinparam componentStyle rectangle
+
+package "Frontend (Next.js)" {
+    [Next.js Components] 
+    [Server Actions]
+}
+
+package "Deployment (Vercel)" {
+    [Vercel Serverless Hosting]
+    [CDN]
+}
+
+package "Backend Services" {
+    [AWS S3 - File Storage]
+    [Prisma ORM]
+    [PostgreSQL Database]
+    [Authentication (OAuth, JWT)]
+}
+
+[User] --> [Next.js Components] : Interacts with
+[Next.js Components] --> [Server Actions] : Sends Requests
+[Server Actions] --> [Prisma ORM] : Database Access
+[Server Actions] --> [AWS S3 - File Storage] : File Upload/Retrieval
+[Server Actions] --> [Authentication (OAuth, JWT)] : User Authentication
+[Prisma ORM] --> [PostgreSQL Database] : Executes Queries
+[Vercel Serverless Hosting] --> [Next.js Components] : Hosts
+[CDN] --> [Next.js Components] : Caches Content
+
+@enduml

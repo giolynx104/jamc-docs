@@ -1,0 +1,34 @@
+@startuml
+
+' Define main screens and roles
+[*] --> Login : "Open App"
+Login --> Registration : "New User? Register"
+Login --> ForgotPassword : "Forgot Password?"
+
+' After login flow
+Login --> Dashboard : "Login Success"
+Dashboard --> Profile : "View Profile"
+Dashboard --> Course_List : "Browse Courses"
+Dashboard --> Notifications : "Check Notifications"
+Dashboard --> QnA : "Access Q&A"
+
+' Registration and authentication flows
+Registration --> Login : "Account Created"
+ForgotPassword --> Login : "Password Reset"
+
+' Course navigation flows
+Course_List --> Course_Detail : "Select Course"
+Course_Detail --> Course_Content : "Access Lessons"
+Course_Content --> Course_Detail : "Back to Course Info"
+Course_Detail --> QnA : "View Course Q&A"
+QnA --> Course_Detail : "Back to Course Info"
+
+' Profile navigation
+Profile --> Settings : "Edit Settings"
+Profile --> Dashboard : "Back to Dashboard"
+Profile --> Login : "Logout"
+
+' Notification interactions
+Notifications --> Dashboard : "Back to Dashboard"
+
+@enduml

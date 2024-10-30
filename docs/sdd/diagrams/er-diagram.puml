@@ -1,0 +1,153 @@
+@startuml
+!define Table(name,desc) class name as "name\n<desc>" << (T,#FFAAAA) >>
+hide methods
+hide stereotypes
+
+' Enums
+enum Role {
+  ONBOARDING
+  STUDENT
+  TEACHER
+  ADMIN
+}
+
+enum AccessType {
+  FREE
+  PAID
+}
+
+enum FlaggedStatus {
+  SLOW_PROGRESS
+  FAST_PROGRESS
+  NORMAL
+}
+
+enum GroupType {
+  FASTER_LEARNERS
+  SLOWER_LEARNERS
+  MIXED
+}
+
+enum AchievementType {
+  CERTIFICATE
+  BADGE
+}
+
+enum Visibility {
+  PUBLIC
+  PRIVATE
+}
+
+enum VoteType {
+  UPVOTE
+  DOWNVOTE
+}
+
+enum DifficultyLevel {
+  EASY
+  MEDIUM
+  HARD
+}
+
+enum FileType {
+  PDF
+  IMAGE
+  OTHER
+}
+
+' Entities
+Table(User, "id, name, email, role, password, createdAt, updatedAt")
+Table(StudentProfile, "id, userId, createdAt, updatedAt")
+Table(TeacherProfile, "id, userId, createdAt, updatedAt")
+Table(Account, "id, userId, type, provider, providerAccountId, createdAt, updatedAt")
+Table(Session, "id, sessionToken, userId, expires, createdAt, updatedAt")
+Table(Authenticator, "id, credentialID, userId, providerAccountId, createdAt")
+Table(Course, "id, title, description, rating, createdAt, updatedAt")
+Table(Lesson, "id, title, content, videoUrl, order, createdAt, updatedAt")
+Table(Enrollment, "id, accessType, status, createdAt, updatedAt")
+Table(Progress, "id, lessonCompletion, quizResults, flaggedStatus, createdAt, updatedAt")
+Table(Group, "id, groupType, createdAt, updatedAt")
+Table(GroupMember, "id")
+Table(CreditPoint, "id, pointsTotal, pointsBreakdown, badgesEarned, createdAt, updatedAt")
+Table(Rating, "id, rating, review, createdAt, updatedAt")
+Table(Question, "id, title, problemDetails, attemptedSolution, priorityScore, visibility, difficulty, createdAt, updatedAt")
+Table(QuestionFile, "id, fileName, fileUrl, fileType, createdAt, updatedAt")
+Table(QuestionVote, "id, voteType, createdAt")
+Table(Answer, "id, content, createdAt, updatedAt")
+Table(AnswerVote, "id, voteType, createdAt")
+Table(QuestionComment, "id, content, createdAt, updatedAt")
+Table(AnswerComment, "id, content, createdAt, updatedAt")
+Table(Tag, "id, name")
+Table(QuestionTag, "")
+Table(Certificate, "id, achievement, dateIssued")
+Table(Revenue, "id, earnedAmount, studentEnrollment, createdAt, updatedAt")
+
+' Relationships
+User "1" -- "0..1" StudentProfile : has >
+User "1" -- "0..1" TeacherProfile : has >
+User "1" -- "*" Account : has >
+User "1" -- "*" Session : has >
+User "1" -- "*" Authenticator : has >
+User "1" -- "0..1" CreditPoint : has >
+User "1" -- "*" Question : asks >
+User "1" -- "*" Answer : answers >
+User "1" -- "*" QuestionVote : votes >
+User "1" -- "*" AnswerVote : votes >
+User "1" -- "*" QuestionComment : comments >
+User "1" -- "*" AnswerComment : comments >
+User "1" -- "*" Rating : gives >
+
+StudentProfile "1" -- "1" User : belongs to <
+StudentProfile "1" -- "*" Enrollment : has >
+StudentProfile "1" -- "*" Progress : has >
+StudentProfile "1" -- "*" GroupMember : has >
+StudentProfile "1" -- "*" Certificate : earns >
+
+TeacherProfile "1" -- "1" User : belongs to <
+TeacherProfile "1" -- "*" Course : creates >
+TeacherProfile "1" -- "*" Revenue : earns >
+
+Course "1" -- "*" Lesson : contains >
+Course "*" -- "*" Enrollment : has >
+Course "*" -- "*" Progress : has >
+Course "1" -- "*" Rating : has >
+Course "1" -- "*" Certificate : awards >
+Course "1" -- "*" Revenue : generates >
+
+Lesson "1" -- "*" Question : has >
+Lesson "*" -- "*" Progress : has >
+
+Enrollment "1" -- "1" StudentProfile : for >
+Enrollment "1" -- "1" Course : in >
+
+Progress "1" -- "1" StudentProfile : by >
+Progress "1" -- "1" Course : in >
+Progress "1" -- "1" Lesson : for >
+
+Group "1" -- "*" GroupMember : has >
+GroupMember "1" -- "1" Group : part of >
+GroupMember "1" -- "1" StudentProfile : member >
+
+Question "1" -- "*" Answer : has >
+Question "1" -- "*" QuestionFile : has >
+Question "1" -- "*" QuestionVote : has >
+Question "1" -- "*" QuestionComment : has >
+Question "*" -- "*" Tag : tagged with >
+Question "1" -- "0..1" Answer : best answer >
+Question "1" -- "0..1" Lesson : relates to >
+
+Answer "1" -- "*" AnswerVote : has >
+Answer "1" -- "*" AnswerComment : has >
+
+Tag "*" -- "*" Question : tags >
+
+Rating "1" -- "1" User : by >
+Rating "1" -- "1" Course : for >
+
+Certificate "1" -- "1" StudentProfile : for >
+Certificate "1" -- "1" Course : from >
+
+Revenue "1" -- "1" TeacherProfile : for >
+Revenue "1" -- "1" Course : from >
+
+@enduml

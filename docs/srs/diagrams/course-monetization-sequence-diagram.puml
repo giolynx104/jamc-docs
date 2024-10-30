@@ -1,0 +1,20 @@
+@startuml
+actor Teacher
+participant "JAMC System" as System
+participant "Payment Gateway" as Payment
+participant "Course Database" as DB
+
+Teacher -> System: Start Monetization Process
+System -> Teacher: Request Price and Payment Details
+Teacher --> System: Provide Course Price
+System -> Payment: Validate Payment Setup
+alt Payment Setup Valid
+    Payment --> System: Validation Success
+    System -> DB: Save Monetized Course Details
+    DB --> System: Course Published
+    System --> Teacher: Monetization Successful
+else Payment Setup Invalid
+    Payment --> System: Validation Failed
+    System --> Teacher: Display Payment Error
+end
+@enduml

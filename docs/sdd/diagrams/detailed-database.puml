@@ -1,0 +1,323 @@
+@startuml
+entity "User" as User {
+    * id : String <<PK>>
+    --
+    name : String
+    email : String <<unique>>
+    emailVerified : DateTime
+    image : String
+    role : Role
+    password : String
+    createdAt : DateTime
+    updatedAt : DateTime
+}
+
+entity "StudentProfile" as StudentProfile {
+    * id : String <<PK>>
+    --
+    userId : String <<FK>>
+    createdAt : DateTime
+    updatedAt : DateTime
+}
+
+entity "TeacherProfile" as TeacherProfile {
+    * id : String <<PK>>
+    --
+    userId : String <<FK>>
+    createdAt : DateTime
+    updatedAt : DateTime
+}
+
+entity "Account" as Account {
+    * id : String <<PK>>
+    --
+    userId : String <<FK>>
+    type : String
+    provider : String
+    providerAccountId : String
+    refresh_token : String
+    access_token : String
+    expires_at : Int
+    token_type : String
+    scope : String
+    id_token : String
+    session_state : String
+    createdAt : DateTime
+    updatedAt : DateTime
+}
+
+entity "Session" as Session {
+    * id : String <<PK>>
+    --
+    sessionToken : String <<unique>>
+    userId : String <<FK>>
+    expires : DateTime
+    createdAt : DateTime
+    updatedAt : DateTime
+}
+
+entity "Authenticator" as Authenticator {
+    * id : String <<PK>>
+    --
+    credentialID : String <<unique>>
+    userId : String <<FK>>
+    providerAccountId : String
+    credentialPublicKey : String
+    counter : Int
+    credentialDeviceType : String
+    credentialBackedUp : Boolean
+    transports : String
+}
+
+entity "Course" as Course {
+    * id : String <<PK>>
+    --
+    title : String
+    description : String
+    rating : Float
+    createdAt : DateTime
+    updatedAt : DateTime
+    difficulty : DifficultyLevel
+    subject : String
+    teacherId : String <<FK>>
+}
+
+entity "Lesson" as Lesson {
+    * id : String <<PK>>
+    --
+    title : String
+    content : String
+    videoUrl : String
+    order : Int
+    createdAt : DateTime
+    updatedAt : DateTime
+    courseId : String <<FK>>
+}
+
+entity "Enrollment" as Enrollment {
+    * id : String <<PK>>
+    --
+    accessType : AccessType
+    status : String
+    createdAt : DateTime
+    updatedAt : DateTime
+    studentId : String <<FK>>
+    courseId : String <<FK>>
+}
+
+entity "Progress" as Progress {
+    * id : String <<PK>>
+    --
+    lessonCompletion : Boolean
+    quizResults : Json
+    flaggedStatus : FlaggedStatus
+    createdAt : DateTime
+    updatedAt : DateTime
+    studentId : String <<FK>>
+    courseId : String <<FK>>
+    lessonId : String <<FK>>
+}
+
+entity "Group" as Group {
+    * id : String <<PK>>
+    --
+    groupType : GroupType
+    createdAt : DateTime
+    updatedAt : DateTime
+}
+
+entity "GroupMember" as GroupMember {
+    * id : String <<PK>>
+    --
+    groupId : String <<FK>>
+    studentId : String <<FK>>
+}
+
+entity "CreditPoint" as CreditPoint {
+    * id : String <<PK>>
+    --
+    pointsTotal : Int
+    pointsBreakdown : Json
+    badgesEarned : Json
+    createdAt : DateTime
+    updatedAt : DateTime
+    userId : String <<FK>>
+}
+
+entity "Rating" as Rating {
+    * id : String <<PK>>
+    --
+    rating : Int
+    review : String
+    createdAt : DateTime
+    updatedAt : DateTime
+    userId : String <<FK>>
+    courseId : String <<FK>>
+}
+
+entity "Question" as Question {
+    * id : String <<PK>>
+    --
+    title : String
+    problemDetails : String
+    attemptedSolution : String
+    priorityScore : Float
+    createdAt : DateTime
+    updatedAt : DateTime
+    visibility : Visibility
+    difficulty : DifficultyLevel
+    authorId : String <<FK>>
+    lessonId : String <<FK>>
+}
+
+entity "Answer" as Answer {
+    * id : String <<PK>>
+    --
+    content : String
+    createdAt : DateTime
+    updatedAt : DateTime
+    authorId : String <<FK>>
+    questionId : String <<FK>>
+}
+
+entity "QuestionFile" as QuestionFile {
+    * id : String <<PK>>
+    --
+    fileName : String
+    fileUrl : String
+    fileType : FileType
+    createdAt : DateTime
+    updatedAt : DateTime
+    questionId : String <<FK>>
+}
+
+entity "QuestionVote" as QuestionVote {
+    * id : String <<PK>>
+    --
+    voteType : VoteType
+    createdAt : DateTime
+    questionId : String <<FK>>
+    userId : String <<FK>>
+}
+
+entity "AnswerVote" as AnswerVote {
+    * id : String <<PK>>
+    --
+    voteType : VoteType
+    createdAt : DateTime
+    answerId : String <<FK>>
+    userId : String <<FK>>
+}
+
+entity "QuestionComment" as QuestionComment {
+    * id : String <<PK>>
+    --
+    content : String
+    createdAt : DateTime
+    updatedAt : DateTime
+    authorId : String <<FK>>
+    questionId : String <<FK>>
+}
+
+entity "AnswerComment" as AnswerComment {
+    * id : String <<PK>>
+    --
+    content : String
+    createdAt : DateTime
+    updatedAt : DateTime
+    authorId : String <<FK>>
+    answerId : String <<FK>>
+}
+
+entity "Tag" as Tag {
+    * id : String <<PK>>
+    --
+    name : String <<unique>>
+}
+
+entity "QuestionTag" as QuestionTag {
+    --
+    questionId : String <<FK>>
+    tagId : String <<FK>>
+}
+
+entity "Certificate" as Certificate {
+    * id : String <<PK>>
+    --
+    achievement : AchievementType
+    dateIssued : DateTime
+    studentId : String <<FK>>
+    courseId : String <<FK>>
+}
+
+entity "Revenue" as Revenue {
+    * id : String <<PK>>
+    --
+    earnedAmount : Float
+    studentEnrollment : Int
+    createdAt : DateTime
+    updatedAt : DateTime
+    teacherId : String <<FK>>
+    courseId : String <<FK>>
+}
+
+entity "Resource" as Resource {
+    * id : String <<PK>>
+    --
+    title : String
+    url : String
+    type : String
+    description : String
+    order : Int
+    createdAt : DateTime
+    updatedAt : DateTime
+    courseId : String <<FK>>
+}
+
+User "1" -- "0..1" StudentProfile : "has"
+User "1" -- "0..1" TeacherProfile : "has"
+User "1" -- "0..*" Account : "owns"
+User "1" -- "0..*" Session : "has active"
+User "1" -- "0..*" Authenticator : "has"
+User "1" -- "0..1" CreditPoint : "earned"
+User "1" -- "0..*" Rating : "gives"
+User "1" -- "0..*" Question : "asks"
+User "1" -- "0..*" Answer : "provides"
+User "1" -- "0..*" QuestionComment : "comments on question"
+User "1" -- "0..*" AnswerComment : "comments on answer"
+User "1" -- "0..*" QuestionVote : "votes on question"
+User "1" -- "0..*" AnswerVote : "votes on answer"
+StudentProfile "1" -- "0..*" Enrollment : "enrolls in"
+StudentProfile "1" -- "0..*" Progress : "tracks"
+StudentProfile "1" -- "0..*" Certificate : "awarded"
+StudentProfile "1" -- "0..*" GroupMember : "belongs to"
+TeacherProfile "1" -- "0..*" Course : "creates"
+TeacherProfile "1" -- "0..*" Revenue : "earns"
+Course "1" -- "0..*" Lesson : "contains"
+Course "1" -- "0..*" Enrollment : "includes"
+Course "1" -- "0..*" Progress : "tracked in"
+Course "1" -- "0..*" Rating : "rated by"
+Course "1" -- "0..*" Certificate : "awards"
+Course "1" -- "0..*" Revenue : "generates"
+Course "1" -- "0..*" Resource : "has"
+Lesson "1" -- "0..*" Progress : "tracked by"
+Lesson "1" -- "0..*" Question : "contains"
+Group "1" -- "0..*" GroupMember : "has"
+Question "1" -- "0..*" QuestionFile : "attached"
+Question "1" -- "0..*" QuestionVote : "voted by"
+Question "1" -- "0..*" QuestionComment : "commented on"
+Question "1" -- "0..*" Answer : "answered by"
+Answer "1" -- "0..*" AnswerVote : "voted by"
+Answer "1" -- "0..*" AnswerComment : "commented on"
+Tag "1" -- "0..*" QuestionTag : "tags"
+Question "0..*" -- "0..*" QuestionTag : "tagged with"
+
+entity "QuestionTag" as QuestionTag {
+    * questionId : String <<FK>>
+    * tagId : String <<FK>>
+}
+
+QuestionTag "0..*" -- "1" Question : "references"
+QuestionTag "0..*" -- "1" Tag : "references"
+
+@enduml
