@@ -1,9 +1,9 @@
-# JAMC Docs
+# Project III Docs
 
-Official documentation for the JAMC project.
+Documentation for Project III.
 
 ## Table of Contents
 
-- [Business Requirement Description](docs/brd.md)
+- [Business Requirements Document](docs/brd.md)
 - [Software Requirements Specification](docs/srs/srs.md)
-- [Software Design Description](docs/sdd/sdd.md)
+- [Software Design Document](docs/sdd/sdd.md)
