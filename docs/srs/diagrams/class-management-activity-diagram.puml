@@ -1,0 +1,25 @@
+@startuml class-management-activity-diagram
+
+start
+:Teacher accesses class management page;
+:Display options for create, update, delete class;
+
+if (Choose action?) then (Create Class)
+    :Teacher enters class details;
+    :System validates details;
+    :System creates class in database;
+    :Display success message to Teacher;
+else if (Update Class)
+    :Teacher modifies class details;
+    :System validates changes;
+    :System updates class in database;
+    :Display success message to Teacher;
+else (Delete Class)
+    :Teacher selects class to delete;
+    :System confirms deletion;
+    :System deletes class from database;
+    :Display success message to Teacher;
+endif
+
+stop
+@enduml

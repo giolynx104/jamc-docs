@@ -1,0 +1,20 @@
+@startuml credit-points-and-badge-system-sequence-diagram
+
+actor Student
+participant "credit-system" as CreditSys
+participant "badge-service" as BadgeService
+participant "database" as DB
+
+Student -> CreditSys: Complete activity (e.g., Q&A, assignment)
+CreditSys -> DB: Update credit points for activity
+DB --> CreditSys: Confirm points update
+
+alt Award Badge
+    CreditSys -> BadgeService: Check for badge milestone
+    BadgeService -> DB: Assign new badge
+    DB --> BadgeService: Confirm badge assignment
+    BadgeService --> CreditSys: Badge awarded
+end
+
+CreditSys -> Student: Display updated points and badge notification
+@enduml

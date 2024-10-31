@@ -1,0 +1,18 @@
+@startuml admin-controls-activity-diagram
+
+start
+:Admin accesses admin controls;
+:Select action (e.g., moderate content, manage user roles, review reports);
+
+if (Action is Moderate Content?) then (Yes)
+    :Update content status in database;
+    :Notify user of moderation action;
+else if (Action is Manage User Roles?) then (Yes)
+    :Update user roles in database;
+else (Action is Review Reports)
+    :Retrieve and display flagged content for review;
+endif
+
+:Display success message to Admin;
+stop
+@enduml

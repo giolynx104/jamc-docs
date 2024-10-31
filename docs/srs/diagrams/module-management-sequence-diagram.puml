@@ -1,0 +1,41 @@
+@startuml module-management-sequence-diagram
+
+actor Teacher
+participant "Module Management UI" as ModuleUI
+participant "Module Service" as ModuleService
+participant "Validation Service" as ValidationService
+participant "Database" as DB
+participant "Payment Service" as PaymentService
+
+Teacher -> ModuleUI: Access module management page
+ModuleUI -> Teacher: Display module management options
+Teacher -> ModuleUI: Choose to create, update, delete, or monetize a module
+
+alt Create Module
+    ModuleUI -> ValidationService: Validate module details
+    ValidationService --> ModuleUI: Return validation result
+    ModuleUI -> ModuleService: Send module creation request
+    ModuleService -> DB: Insert new module record
+    DB --> ModuleService: Confirm module creation
+    ModuleService --> ModuleUI: Return success response
+else Update Module
+    ModuleUI -> ValidationService: Validate updated module details
+    ValidationService --> ModuleUI: Return validation result
+    ModuleUI -> ModuleService: Send module update request
+    ModuleService -> DB: Update existing module record
+    DB --> ModuleService: Confirm module update
+    ModuleService --> ModuleUI: Return success response
+else Delete Module
+    ModuleUI -> ModuleService: Send module deletion request
+    ModuleService -> DB: Delete module record
+    DB --> ModuleService: Confirm module deletion
+    ModuleService --> ModuleUI: Return success response
+else Monetize Module
+    ModuleUI -> PaymentService: Set monetization options
+    PaymentService -> DB: Update module with monetization details
+    DB --> PaymentService: Confirm monetization setup
+    PaymentService --> ModuleUI: Return success response
+end
+
+ModuleUI -> Teacher: Display success message
+@enduml

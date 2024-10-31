@@ -1,0 +1,42 @@
+@startuml data-flow-diagram
+
+actor User
+actor Admin
+
+rectangle "Frontend" as FE {
+    [User Interface]
+}
+
+rectangle "Backend" as BE {
+    [Auth Service]
+    [Class Service]
+    [Module Service]
+    [Q&A Service]
+    [Credit System]
+    [Badge Service]
+    [Admin Controls]
+}
+
+rectangle "Database" as DB {
+    [User Information]
+    [Class Records]
+    [Module Resources]
+    [Q&A Data]
+    [Credit Points]
+    [Badge Achievements]
+}
+
+rectangle "External Services" as EX {
+    [OAuth Provider]
+    [Payment Processor]
+}
+
+User -> FE: Interact with UI
+FE -> BE: Send Requests
+BE -> DB: CRUD Operations
+
+BE -> EX: Authenticate/Process Payments
+Admin -> BE: Access Admin Controls
+BE -> DB: Store Moderation Data
+
+@enduml

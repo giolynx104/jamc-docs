@@ -1,0 +1,28 @@
+@startuml user-registration-sequence-diagram
+
+actor User
+participant "Registration UI" as UI
+participant "Authentication Service" as AuthService
+participant "User Service" as UserService
+participant "Database" as DB
+participant "OAuth Provider" as OP
+
+User -> UI: Access registration page
+UI -> User: Display registration form
+User -> UI: Enter registration details (OAuth or email)
+
+alt OAuth Registration
+    UI -> AuthService: Send OAuth token
+    AuthService -> OP: Verify token
+    OP --> AuthService: Return verification result
+    AuthService -> UserService: Create user record
+else Email Registration
+    UI -> AuthService: Send email and password details
+    AuthService -> UserService: Create user record
+end
+
+UserService -> DB: Store user information
+DB --> UserService: Confirm user data storage
+UserService --> UI: Return success response
+UI -> User: Display successful registration message
+@enduml

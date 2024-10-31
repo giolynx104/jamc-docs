@@ -1,0 +1,29 @@
+@startuml module-management-activity-diagram
+
+start
+:Teacher accesses module management page;
+:Display options for Create, Update, Delete, Monetize module;
+
+if (Choose action?) then (Create Module)
+    :Teacher enters module details;
+    :System validates details;
+    :System creates module in database;
+    :Display success message to Teacher;
+else if (Update Module)
+    :Teacher modifies module details;
+    :System validates changes;
+    :System updates module in database;
+    :Display success message to Teacher;
+else if (Delete Module)
+    :Teacher selects module to delete;
+    :System confirms deletion;
+    :System deletes module from database;
+    :Display success message to Teacher;
+else (Monetize Module)
+    :Teacher selects monetization options;
+    :System updates module with monetization details;
+    :Display success message to Teacher;
+endif
+
+stop
+@enduml

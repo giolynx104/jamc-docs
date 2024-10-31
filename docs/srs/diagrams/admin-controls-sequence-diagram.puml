@@ -1,0 +1,26 @@
+@startuml admin-controls-sequence-diagram
+
+actor Admin
+participant "admin-ui" as AdminUI
+participant "moderation-service" as ModService
+participant "database" as DB
+participant "notification-service" as NotifService
+
+Admin -> AdminUI: Access admin controls
+AdminUI -> ModService: Perform action (e.g., manage user roles, moderate content, review report)
+
+alt Moderate Content
+    ModService -> DB: Update content status
+    DB --> ModService: Confirm content update
+    ModService -> NotifService: Notify user of moderation action
+else Manage User Roles
+    ModService -> DB: Update user roles
+    DB --> ModService: Confirm role update
+else Review Reports
+    ModService -> DB: Retrieve flagged content
+    DB --> ModService: Return report details
+    ModService -> AdminUI: Display report details
+end
+
+AdminUI -> Admin: Display success message
+@enduml

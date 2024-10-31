@@ -74,7 +74,7 @@ The JAMC project is a standalone web-based platform supporting teachers and enha
 - **Postconditions**: Users have unique profile IDs.
 - **Exceptions**: Errors for duplicate emails or OAuth failures.
 
-#### Sequence Diagram
+##### Sequence Diagram
 
 ![User Registration Sequence Diagram](diagrams/user-registration-sequence-diagram.png)
 
@@ -86,11 +86,11 @@ The JAMC project is a standalone web-based platform supporting teachers and enha
 - **Postconditions**: Class is available for enrollment.
 - **Exceptions**: Validation errors for incomplete Class details.
 
-#### Sequence Diagram
+##### Sequence Diagram
 
 ![Class Management Sequence Diagram](diagrams/class-management-sequence-diagram.png)
 
-#### Activity Diagram
+##### Activity Diagram
 
 ![Class Management Activity Diagram](diagrams/class-management-activity-diagram.png)
 
@@ -118,11 +118,11 @@ The JAMC project is a standalone web-based platform supporting teachers and enha
 - **Postconditions**: Q&A is updated with new questions or answers.
 - **Exceptions**: Content flagged for moderation.
 
-#### Sequence Diagram
+##### Sequence Diagram
 
 ![Q&A Participation Sequence Diagram](diagrams/qa-participation-sequence-diagram.png)
 
-#### Activity Diagram
+##### Activity Diagram
 
 ![Q&A Participation Activity Diagram](diagrams/qa-participation-activity-diagram.png)
 
@@ -134,6 +134,14 @@ The JAMC project is a standalone web-based platform supporting teachers and enha
 - **Postconditions**: Credit points and badges are updated on the student’s profile.
 - **Exceptions**: Points deducted for downvotes or inappropriate activity.
 
+##### Sequence Diagram
+
+![Credit Points and Badge System Sequence Diagram](diagrams/credit-points-and-badge-system-sequence-diagram.png)
+
+##### Activity Diagram
+
+![Credit Points and Badge System Activity Diagram](diagrams/credit-points-and-badge-system-activity-diagram.png)
+
 #### 3.2.6 Admin Controls
 
 - **Actors**: Admin
@@ -141,6 +149,30 @@ The JAMC project is a standalone web-based platform supporting teachers and enha
 - **Description**: Admins manage platform-wide settings, moderate flagged Q&A content, and control tag creation.
 - **Postconditions**: Platform quality is maintained with consistent moderation.
 - **Exceptions**: Permissions errors or flagged content remains unresolved.
+
+##### Sequence Diagram
+
+![Admin Controls Sequence Diagram](diagrams/admin-controls-sequence-diagram.png)
+
+##### Activity Diagram
+
+![Admin Controls Activity Diagram](diagrams/admin-controls-activity-diagram.png)
+
+#### 3.2.7 Class Enrollment
+
+- **Actors**: Student, Teacher
+- **Preconditions**: Student is registered and logged in.
+- **Description**: Students enroll in available classes created by teachers. The system verifies the enrollment request, updates the student’s enrollment status in the database, and notifies the teacher of the new enrollment.
+- **Postconditions**: Student is added to the selected class, and the teacher receives a notification of the enrollment.
+- **Exceptions**: Validation fails if the student does not meet the enrollment criteria or if the class is full.
+
+##### Sequence Diagram
+
+![Class Enrollment Sequence Diagram](diagrams/enrollment-sequence-diagram.png)
+
+##### Activity Diagram
+
+![Class Enrollment Activity Diagram](diagrams/enrollment-activity-diagram.png)
 
 ## 4. Non-Functional Requirements
 

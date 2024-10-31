@@ -1,0 +1,27 @@
+@startuml enrollment-sequence-diagram
+
+actor Student
+participant "Enrollment UI" as EnrollUI
+participant "Class Service" as ClassService
+participant "Validation Service" as ValidationService
+participant "Database" as DB
+participant "Notification System" as NotificationService
+
+Student -> EnrollUI: Access class enrollment page
+EnrollUI -> ClassService: Request list of available classes
+ClassService -> DB: Retrieve available classes
+DB --> ClassService: Return class list
+ClassService --> EnrollUI: Display available classes to Student
+
+Student -> EnrollUI: Select class to enroll
+EnrollUI -> ValidationService: Validate enrollment request
+ValidationService --> EnrollUI: Return validation result
+EnrollUI -> ClassService: Send enrollment request
+ClassService -> DB: Update class enrollment records
+DB --> ClassService: Confirm enrollment update
+ClassService -> NotificationService: Notify teacher of new enrollment
+NotificationService --> ClassService: Confirm notification sent
+ClassService --> EnrollUI: Return enrollment confirmation
+
+EnrollUI -> Student: Display enrollment success message
+@enduml
