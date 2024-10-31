@@ -2,28 +2,57 @@
 actor User
 actor Teacher
 actor Student
+actor QAParticipant
 actor Admin
 
 User <|-- Teacher
 User <|-- Student
 User <|-- Admin
 
-usecase "Register and Onboard User" as UC1
-usecase "Create and Manage Class" as UC2
-usecase "Enroll in Class" as UC3
-usecase "Participate in Personalized Q&A" as UC4
-usecase "Access Educational Resources" as UC5
-usecase "Monetize Course" as UC6
+QAParticipant <|-- Teacher
+QAParticipant <|-- Student
+
+usecase "Register" as UC1
+usecase "Log In" as UC2
+usecase "Manage Profile" as UC3
+
+usecase "CRUD Class" as UC4
+usecase "CRUD Module" as UC5
+usecase "Monitor Progress" as UC6
+
+usecase "Enroll in Class" as UC7
+usecase "Access Class Content" as UC8
+usecase "Complete Assignment" as UC9
+usecase "View Progress" as UC10
+
+usecase "Participate in Q&A" as UC11
+usecase "Moderate Q&A Content" as UC12
+usecase "Manage Tags" as UC13
+usecase "Review Reports" as UC14
+usecase "Manage User Roles" as UC15
 
 User --> UC1
-User --> UC4
-User --> UC5
+User --> UC2
+User --> UC3
 
-Teacher --> UC2
+Teacher --> UC4
+Teacher --> UC5
 Teacher --> UC6
 
-Student --> UC3
+Student --> UC7
+Student --> UC8
+Student --> UC9
+Student --> UC10
 
-Admin --> UC2
+QAParticipant --> UC11
+Admin --> UC12
+Admin --> UC13
+Admin --> UC14
+Admin --> UC15
+
+UC1 <|-- UC2 : <<includes>>
+UC8 <|-- UC9 : <<includes>>
+UC4 <|-- UC5 : <<extends>>
+UC11 <|-- UC12 : <<extends>>
 
 @enduml
