@@ -1,27 +1,48 @@
-@startuml
-actor User
-participant "JAMC System" as System
-participant "Moderation Service" as Moderator
-participant "Q&A Database" as DB
+@startuml qa-participation-sequence-diagram
 
-User -> System: Access Q&A Section
-User -> System: Choose Action (Browse, Search, Post)
-alt Posting a Personalized Question/Answer
-    System -> User: Choose Visibility (Public/Private)
-    User --> System: Submit Question/Answer with Visibility
-    System -> Moderator: Moderate Content
-    alt Content Approved
-        Moderator --> System: Content Approved
-        System -> DB: Save Question/Answer with Visibility
-        DB --> System: Content Saved
-        System --> User: Display to Relevant Audience
-    else Content Rejected
-        Moderator --> System: Trigger Moderation Warning
-        System --> User: Display Moderation Warning
-    end
-else Browsing or Searching
-    System -> DB: Retrieve Questions based on Filters
-    DB --> System: Return Questions
-    System --> User: Display Filtered Questions
+actor User
+participant "Q&A UI" as QandAUI
+participant "Q&A Service" as QandAService
+participant "Validation Service" as ValidationService
+participant "Database" as DB
+participant "Notification System" as NotificationService
+
+User -> QandAUI: Access Q&A section
+QandAUI -> QandAService: Request list of questions and answers
+QandAService -> DB: Retrieve questions and answers
+DB --> QandAService: Return questions and answers data
+QandAService --> QandAUI: Display list of questions and answers to User
+
+alt Post Question
+    User -> QandAUI: Enter question details
+    QandAUI -> ValidationService: Validate question content
+    ValidationService --> QandAUI: Return validation result
+    QandAUI -> QandAService: Send validated question for posting
+    QandAService -> DB: Store new question
+    DB --> QandAService: Confirm question creation
+    QandAService --> QandAUI: Return success message
+else Answer Question
+    User -> QandAUI: Select question and enter answer details
+    QandAUI -> ValidationService: Validate answer content
+    ValidationService --> QandAUI: Return validation result
+    QandAUI -> QandAService: Send validated answer for posting
+    QandAService -> DB: Store new answer
+    DB --> QandAService: Confirm answer creation
+    QandAService --> QandAUI: Return success message
+else Upvote/Downvote
+    User -> QandAUI: Choose upvote or downvote
+    QandAUI -> QandAService: Send vote update
+    QandAService -> DB: Update vote count
+    DB --> QandAService: Confirm vote update
+    QandAService --> QandAUI: Display updated vote count
+else Flag Content
+    User -> QandAUI: Select flag option on content
+    QandAUI -> QandAService: Send flag request
+    QandAService -> DB: Log flag in database
+    QandAService -> NotificationService: Notify admin of flagged content
+    DB --> QandAService: Confirm flag storage
+    QandAService --> QandAUI: Return flag confirmation
 end
+
+QandAUI -> User: Display success or update message
 @enduml

@@ -1,19 +1,29 @@
-@startuml
+@startuml qa-participation-activity-diagram
+
 start
-:User Authenticated;
-:Access Q&A Section;
-:Choose Action: Browse, Search, or Post;
-if (Post Question or Answer?) then (yes)
-  :Choose Visibility: Public or Private;
-  :Enter Personalized Question;
-  if (Content Moderated?) then (yes)
-    :Content Approved;
-    :Display to Relevant Audience;
-  else (no)
-    :Moderation Warning;
-  endif
-else (no)
-  :Browsing or Searching Questions;
+:User accesses Q&A section;
+:Display list of questions and answers;
+
+if (Choose action?) then (Post Question)
+    :User enters question details;
+    :System validates question content;
+    :System posts question to Q&A section;
+    :Display success message to User;
+else if (Answer Question)
+    :User selects a question to answer;
+    :User enters answer details;
+    :System validates answer content;
+    :System posts answer to Q&A section;
+    :Display success message to User;
+else if (Upvote/Downvote)
+    :User chooses to upvote or downvote a question or answer;
+    :System updates vote count;
+    :Display updated vote count;
+else (Flag Content)
+    :User flags inappropriate content;
+    :System logs flag and alerts Admin for review;
+    :Display flag confirmation to User;
 endif
+
 stop
 @enduml

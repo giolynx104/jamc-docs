@@ -1,0 +1,23 @@
+@startuml enrollment-activity-diagram
+
+start
+:Student accesses enrollment page;
+:Display list of available classes;
+
+if (Class selected?) then (Yes)
+    :Student selects a class to enroll;
+    :System validates enrollment request;
+
+    if (Validation successful?) then (Yes)
+        :System updates enrollment in database;
+        :Notify teacher of new enrollment;
+        :Display enrollment success message to Student;
+    else (No)
+        :Display validation error message to Student;
+    endif
+else (No)
+    :Display "No class selected" message to Student;
+endif
+
+stop
+@enduml

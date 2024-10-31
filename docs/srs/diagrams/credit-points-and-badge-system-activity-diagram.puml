@@ -1,0 +1,15 @@
+@startuml credit-points-and-badge-system-activity-diagram
+
+start
+:Student completes activity (e.g., Q&A, assignment);
+:credit-system updates points in database;
+
+if (Milestone achieved?) then (Yes)
+    :Award badge to student;
+else (No)
+    :No badge awarded;
+endif
+
+:Display updated points and badge notification to student;
+stop
+@enduml

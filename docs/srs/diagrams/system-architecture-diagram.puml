@@ -1,0 +1,43 @@
+@startuml system-architecture-diagram
+
+node "User Device" as UserDevice {
+    [Browser]
+    [Mobile App]
+}
+
+node "Frontend" as Frontend {
+    [React/Next.js UI]
+}
+
+node "Backend" as Backend {
+    [Auth Service]
+    [Class Service]
+    [Module Service]
+    [Q&A Service]
+    [Credit System]
+    [Badge Service]
+    [Admin Controls Service]
+    [Notification System]
+    [Payment Service]
+}
+
+node "Database" as Database {
+    [User Data]
+    [Class Data]
+    [Module Data]
+    [Q&A Data]
+    [Credit Points Data]
+    [Badge Data]
+}
+
+node "External Services" as External {
+    [OAuth Provider]
+    [Payment Gateway]
+}
+
+UserDevice --> Frontend: Accesses
+Frontend --> Backend: API Requests
+Backend --> Database: Reads/Writes
+Backend --> External: Uses (OAuth & Payment)
+
+@enduml

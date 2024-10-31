@@ -1,0 +1,35 @@
+@startuml class-management-sequence-diagram
+
+actor Teacher
+participant "Class Management UI" as ClassUI
+participant "Class Service" as ClassService
+participant "Validation Service" as ValidationService
+participant "Database" as DB
+
+Teacher -> ClassUI: Access class management page
+ClassUI -> Teacher: Display class management options
+Teacher -> ClassUI: Choose to create, update, or delete a class
+
+alt Create Class
+    ClassUI -> ValidationService: Validate class details
+    ValidationService --> ClassUI: Return validation result
+    ClassUI -> ClassService: Send class creation request
+    ClassService -> DB: Insert new class record
+    DB --> ClassService: Confirm class creation
+    ClassService --> ClassUI: Return success response
+else Update Class
+    ClassUI -> ValidationService: Validate updated class details
+    ValidationService --> ClassUI: Return validation result
+    ClassUI -> ClassService: Send class update request
+    ClassService -> DB: Update existing class record
+    DB --> ClassService: Confirm class update
+    ClassService --> ClassUI: Return success response
+else Delete Class
+    ClassUI -> ClassService: Send class deletion request
+    ClassService -> DB: Delete class record
+    DB --> ClassService: Confirm class deletion
+    ClassService --> ClassUI: Return success response
+end
+
+ClassUI -> Teacher: Display success message
+@enduml
